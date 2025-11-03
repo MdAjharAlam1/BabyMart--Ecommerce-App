@@ -122,6 +122,104 @@ const authApiDocs = {
             }
             
         }
+    },
+    "api/v1/auth/profile":{
+        get:{
+            summary: "Get User Profile",
+            requestBody:{
+                required:true,
+                content:{
+                    "application/json":{
+                        schema:{
+                            type:"object",
+                            properties:{
+                                id: {type:"string"}
+                            }
+                            
+                        }
+                    }
+                }
+            },
+            responses:{
+                200:{
+                    description:"Success",
+                    content:{
+                        "application/json":{
+                            schema:{
+                                type:"object",
+                                properties:{
+                                    _id: {type:"string"},
+                                    name:{type:"string"},
+                                    email: {type:"string"},
+                                    role:{type:"string"},
+                                    address:{type:"string"},
+                                    avatar:{type:"string"}
+                                }
+                            }
+                        }
+                    }
+                },
+                404:{
+                    description:"Error",
+                    content:{
+                        "application/json":{
+                            schema:{
+                                type:"object",
+                                properties:{
+                                    message:{type:"string", example:"Unauthorized"}
+                                }
+                            }
+                        }
+                    }
+                },
+                500:{
+                    description:"Error",
+                    content:{
+                        "application/json":{
+                            schema:{
+                                type:"object",
+                                properties:{
+                                    message:{type:"string", example:"Internal server error"}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "api/v1/auth/logout":{
+        post:{
+            summary:"Logout User",
+            responses:{
+                200:{
+                    description:"Success",
+                    content:{
+                        "application/json":{
+                            schema:{
+                                type:"object",
+                                properties:{
+                                    message:{type:"string", example:"Logout Successfully"}
+                                }
+                            }
+                        }
+                    }
+                },
+                500:{
+                    description:"Error",
+                    content:{
+                        "application/json":{
+                            schema:{
+                                type:"object",
+                                properties:{
+                                    message:{type:"string", example:"Internal Server Error"}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 export default authApiDocs

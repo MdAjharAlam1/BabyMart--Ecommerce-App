@@ -1,8 +1,9 @@
+import expressAsyncHandler from 'express-async-handler'
 import userModel from '../models/userModel.js'
 import generateToken  from '../utils/generateToken.js'
 
 
-export const registerUser = async(req,res)=>{
+export const registerUser = expressAsyncHandler(async(req,res)=>{
     try {
         const {name, email, password,role} = req.body
         if(!email || !name || !password || !role){
@@ -25,9 +26,9 @@ export const registerUser = async(req,res)=>{
             message:`Internal Server Error ${err.message}`
         })
     }
-}
+})
 
-export const loginUser = async(req,res)=>{
+export const loginUser = expressAsyncHandler(async(req,res)=>{
     try {
         const {email, password} = req.body
         if(!email || !password ){
@@ -69,4 +70,47 @@ export const loginUser = async(req,res)=>{
         })
         
     }
-}
+})
+
+export const getProfileUser = expressAsyncHandler(async(req,res)=>{
+    try {
+
+        const user = await userModel.findById(req.user._id)
+        if(!user){
+            return res.status(404).json({
+                message:"Unauthorized"                
+            })
+        }
+
+        return res.json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            role : user.role,
+            address: user.address,
+            avatar : user.avatar
+
+        })
+        
+    } catch (err) {
+        console.log("Error from get profile user")
+        return res.status(500).json({
+            message: `Internal Server Error ${err.message}`
+        })
+    }
+})
+
+export const logoutUser = expressAsyncHandler(async(req,res)=>{
+    try {
+        return res.json({
+            success:true,
+            message:"Logout Sucessfully"
+        })
+        
+    } catch (error) {
+        console.log("error from logout user")
+        return res.status(500).json({
+            message:`Internal Server Error ${error.message}`
+        })
+    }
+})
