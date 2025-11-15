@@ -3,7 +3,7 @@ import userModel from '../models/userModel.js'
 import generateToken  from '../utils/generateToken.js'
 
 
-export const registerUser = expressAsyncHandler(async(req,res)=>{
+export const createUser = expressAsyncHandler(async(req,res)=>{
     try {
         const {name, email, password,role} = req.body
         if(!email || !name || !password || !role){
@@ -72,7 +72,7 @@ export const loginUser = expressAsyncHandler(async(req,res)=>{
     }
 })
 
-export const getProfileUser = expressAsyncHandler(async(req,res)=>{
+export const fetchUserProfile = expressAsyncHandler(async(req,res)=>{
     try {
 
         const user = await userModel.findById(req.user._id)
